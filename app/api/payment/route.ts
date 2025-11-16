@@ -5,15 +5,21 @@ const DEMO_MODE = !process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECR
 
 // Initialize Razorpay only if we have valid credentials
 let razorpay: any = null
-if (!DEMO_MODE) {
+
+// Only try to load Razorpay at runtime, not during build
+function initializeRazorpay() {
+  if (razorpay || DEMO_MODE) return razorpay
+
   try {
     const Razorpay = require('razorpay')
     razorpay = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID,
       key_secret: process.env.RAZORPAY_KEY_SECRET,
     })
+    return razorpay
   } catch (error) {
     console.warn('Razorpay initialization failed, using demo mode')
+    return null
   }
 }
 
@@ -29,8 +35,11 @@ export async function POST(request: Request) {
       )
     }
 
+    // Initialize Razorpay if needed
+    const rzp = initializeRazorpay()
+
     // Demo mode - generate mock order
-    if (DEMO_MODE || !razorpay) {
+    if (DEMO_MODE || !rzp) {
       const orderId = `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
       const amountInPaise = Math.round(amount * 100)
       
@@ -52,7 +61,7 @@ export async function POST(request: Request) {
       notes: notes || {},
     }
 
-    const order = await razorpay.orders.create(options)
+    const order = await rzp.orders.create(options)
 
     return NextResponse.json({
       success: true,
