@@ -53,65 +53,68 @@ export default function LiveRatesTable() {
 
   return (
     <div className="card">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Today's Exchange Rates</h2>
-        <div className="text-sm text-gray-500">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-2">
+        <h2 className="text-xl sm:text-2xl font-bold">Today's Exchange Rates</h2>
+        <div className="text-xs sm:text-sm text-gray-500">
           Last updated: {mounted && lastUpdate ? lastUpdate.toLocaleTimeString() : 'Loading...'}
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b">
-              <th className="text-left py-3 px-4 font-semibold text-gray-700">Currency</th>
-              <th className="text-right py-3 px-4 font-semibold text-gray-700">We Buy At</th>
-              <th className="text-right py-3 px-4 font-semibold text-gray-700">We Sell At</th>
-              <th className="text-right py-3 px-4 font-semibold text-gray-700">Change</th>
-              <th className="text-right py-3 px-4 font-semibold text-gray-700">Action</th>
-            </tr>
-          </thead>
+      <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="inline-block min-w-full align-middle">
+          <table className="min-w-full">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 text-xs sm:text-sm">Currency</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 text-xs sm:text-sm">Buy</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 text-xs sm:text-sm">Sell</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 text-xs sm:text-sm hidden md:table-cell">Change</th>
+                <th className="text-right py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 text-xs sm:text-sm">Action</th>
+              </tr>
+            </thead>
           <tbody>
             {rates.map((rate, index) => (
               <tr key={index} className="border-b hover:bg-gray-50 transition-colors">
-                <td className="py-4 px-4">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{rate.flag}</span>
+                <td className="py-3 sm:py-4 px-2 sm:px-4">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <span className="text-xl sm:text-2xl">{rate.flag}</span>
                     <div>
-                      <p className="font-semibold text-gray-900">{rate.currency}</p>
-                      <p className="text-sm text-gray-500">{rate.name}</p>
+                      <p className="font-semibold text-gray-900 text-xs sm:text-sm">{rate.currency}</p>
+                      <p className="text-xs text-gray-500 hidden sm:block">{rate.name}</p>
                     </div>
                   </div>
                 </td>
-                <td className="text-right py-4 px-4">
-                  <span className="font-semibold text-green-600">₹{rate.buy.toFixed(2)}</span>
+                <td className="text-right py-3 sm:py-4 px-2 sm:px-4">
+                  <span className="font-semibold text-green-600 text-xs sm:text-sm">₹{rate.buy.toFixed(2)}</span>
                 </td>
-                <td className="text-right py-4 px-4">
-                  <span className="font-semibold text-red-600">₹{rate.sell.toFixed(2)}</span>
+                <td className="text-right py-3 sm:py-4 px-2 sm:px-4">
+                  <span className="font-semibold text-red-600 text-xs sm:text-sm">₹{rate.sell.toFixed(2)}</span>
                 </td>
-                <td className="text-right py-4 px-4">
+                <td className="text-right py-3 sm:py-4 px-2 sm:px-4 hidden md:table-cell">
                   <div className={`flex items-center justify-end gap-1 ${rate.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {rate.change >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                    <span className="font-medium">{Math.abs(rate.change).toFixed(2)}%</span>
+                    {rate.change >= 0 ? <TrendingUp size={14} className="sm:w-4 sm:h-4" /> : <TrendingDown size={14} className="sm:w-4 sm:h-4" />}
+                    <span className="font-medium text-xs sm:text-sm">{Math.abs(rate.change).toFixed(2)}%</span>
                   </div>
                 </td>
-                <td className="text-right py-4 px-4">
+                <td className="text-right py-3 sm:py-4 px-2 sm:px-4">
                   <button
                     onClick={() => router.push(`/exchange-currency?currency=${rate.currency}`)}
-                    className="text-primary-600 hover:text-primary-700 font-semibold flex items-center gap-1 ml-auto transition-colors hover:bg-primary-50 px-3 py-2 rounded-lg"
+                    className="text-primary-600 hover:text-primary-700 font-semibold flex items-center gap-1 ml-auto transition-colors hover:bg-primary-50 px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm whitespace-nowrap"
                   >
-                    Buy Now
-                    <ArrowRight size={16} />
+                    <span className="hidden sm:inline">Buy Now</span>
+                    <span className="sm:hidden">Buy</span>
+                    <ArrowRight size={14} className="sm:w-4 sm:h-4" />
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
 
-      <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <p className="text-sm text-yellow-800">
+      <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <p className="text-xs sm:text-sm text-yellow-800">
           <strong>Note:</strong> Rates are indicative and subject to change. Final rates will be locked at the time of transaction.
         </p>
       </div>

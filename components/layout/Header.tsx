@@ -11,14 +11,15 @@ export default function Header() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       {/* Top Bar */}
       <div className="bg-primary-600 text-white py-2">
-        <div className="container-custom flex justify-between items-center text-sm">
-          <div className="flex items-center gap-4">
-            <a href="tel:+919121219191" className="flex items-center gap-2 hover:text-primary-100">
-              <Phone size={16} />
-              <span>+91 9121219191</span>
+        <div className="container-custom flex justify-between items-center text-xs sm:text-sm">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <a href="tel:+919121219191" className="flex items-center gap-1 sm:gap-2 hover:text-primary-100">
+              <Phone size={14} className="sm:w-4 sm:h-4" />
+              <span className="hidden xs:inline">+91 9121219191</span>
+              <span className="xs:hidden">Call Us</span>
             </a>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link href="/login" className="hover:text-primary-100">Login</Link>
             <Link href="/register" className="hover:text-primary-100">Register</Link>
           </div>
@@ -30,8 +31,9 @@ export default function Header() {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-bold text-2xl px-4 py-2 rounded-lg">
-              BookMyForex
+            <div className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-bold text-lg sm:text-xl lg:text-2xl px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg">
+              <span className="hidden sm:inline">BookMyForex</span>
+              <span className="sm:hidden">BMF</span>
             </div>
           </Link>
 
@@ -54,21 +56,22 @@ export default function Header() {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Link href="/dashboard" className="flex items-center gap-2 text-gray-700 hover:text-primary-600">
-              <User size={20} />
-              <span>My Account</span>
+          <div className="hidden md:flex items-center gap-3 lg:gap-4">
+            <Link href="/dashboard" className="flex items-center gap-1 lg:gap-2 text-gray-700 hover:text-primary-600">
+              <User size={18} className="lg:w-5 lg:h-5" />
+              <span className="hidden lg:inline text-sm lg:text-base">My Account</span>
             </Link>
-            <Link href="/cart" className="flex items-center gap-2 text-gray-700 hover:text-primary-600">
-              <ShoppingCart size={20} />
-              <span className="bg-primary-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+            <Link href="/cart" className="flex items-center gap-1 lg:gap-2 text-gray-700 hover:text-primary-600 relative">
+              <ShoppingCart size={18} className="lg:w-5 lg:h-5" />
+              <span className="bg-primary-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center absolute -top-2 -right-2 lg:static">0</span>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden"
+            className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -76,13 +79,75 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4 border-t pt-4">
-            <nav className="flex flex-col gap-4">
-              <Link href="/exchange-currency" className="font-medium text-gray-700">Exchange Currency</Link>
-              <Link href="/transfer-money" className="font-medium text-gray-700">Transfer Money Abroad</Link>
-              <Link href="/forex-cards" className="font-medium text-gray-700">Forex Cards</Link>
-              <Link href="/rates" className="font-medium text-gray-700">Forex Rates</Link>
-              <Link href="/dashboard" className="font-medium text-gray-700">My Account</Link>
+          <div className="md:hidden mt-4 pb-4 border-t pt-4 animate-fadeIn">
+            <nav className="flex flex-col gap-3">
+              <Link
+                href="/exchange-currency"
+                className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Exchange Currency
+              </Link>
+              <Link
+                href="/transfer-money"
+                className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Transfer Money Abroad
+              </Link>
+              <Link
+                href="/forex-cards"
+                className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Forex Cards
+              </Link>
+              <Link
+                href="/reload-card"
+                className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Reload Card
+              </Link>
+              <Link
+                href="/rates"
+                className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Forex Rates
+              </Link>
+              <Link
+                href="/about"
+                className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <div className="border-t pt-3 mt-2">
+                <Link
+                  href="/dashboard"
+                  className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <User size={18} />
+                  My Account
+                </Link>
+                <Link
+                  href="/cart"
+                  className="font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors flex items-center gap-2 mt-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <ShoppingCart size={18} />
+                  Cart (0)
+                </Link>
+              </div>
             </nav>
           </div>
         )}

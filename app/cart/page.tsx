@@ -173,61 +173,65 @@ export default function CartPage() {
   const grandTotal = subtotal + deliveryFee
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 py-6 sm:py-8 lg:py-12">
       <div className="container-custom">
-        <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Shopping Cart</h1>
 
         {cartItems.length === 0 ? (
-          <div className="card text-center py-16">
-            <ShoppingBag className="mx-auto mb-4 text-gray-400" size={64} />
-            <h2 className="text-2xl font-bold mb-2">Your cart is empty</h2>
-            <p className="text-gray-600 mb-6">Add some items to get started</p>
+          <div className="card text-center py-12 sm:py-16">
+            <ShoppingBag className="mx-auto mb-4 text-gray-400" size={48} />
+            <h2 className="text-xl sm:text-2xl font-bold mb-2">Your cart is empty</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-6">Add some items to get started</p>
             <Link href="/exchange-currency" className="btn-primary inline-block">
               Start Shopping
             </Link>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Cart Items */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="lg:col-span-2 space-y-3 sm:space-y-4">
               {cartItems.map(item => (
                 <div key={item.id} className="card">
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg">{item.name}</h3>
-                      <p className="text-gray-600">
+                      <h3 className="font-bold text-base sm:text-lg">{item.name}</h3>
+                      <p className="text-sm text-gray-600">
                         {item.type === 'currency' ? 'Currency Notes' : 'Forex Card'}
                       </p>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1">
                         Amount: {item.amount} {item.name.match(/\(([^)]+)\)/)?.[1]} @ ₹{item.rate.toFixed(2)}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => updateQuantity(item.id, -1)}
-                        className="p-1 hover:bg-gray-100 rounded"
-                      >
-                        <Minus size={20} />
-                      </button>
-                      <span className="font-semibold w-8 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item.id, 1)}
-                        className="p-1 hover:bg-gray-100 rounded"
-                      >
-                        <Plus size={20} />
-                      </button>
-                    </div>
+                    <div className="flex items-center justify-between sm:justify-start gap-4">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <button
+                          onClick={() => updateQuantity(item.id, -1)}
+                          className="p-1.5 sm:p-2 hover:bg-gray-100 rounded transition-colors"
+                          aria-label="Decrease quantity"
+                        >
+                          <Minus size={16} className="sm:w-5 sm:h-5" />
+                        </button>
+                        <span className="font-semibold w-8 text-center text-sm sm:text-base">{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.id, 1)}
+                          className="p-1.5 sm:p-2 hover:bg-gray-100 rounded transition-colors"
+                          aria-label="Increase quantity"
+                        >
+                          <Plus size={16} className="sm:w-5 sm:h-5" />
+                        </button>
+                      </div>
 
-                    <div className="text-right">
-                      <p className="font-bold text-lg">₹{(item.total * item.quantity).toFixed(2)}</p>
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="text-red-600 hover:text-red-700 mt-2 flex items-center gap-1"
-                      >
-                        <Trash2 size={16} />
-                        Remove
-                      </button>
+                      <div className="text-right">
+                        <p className="font-bold text-base sm:text-lg">₹{(item.total * item.quantity).toFixed(2)}</p>
+                        <button
+                          onClick={() => removeItem(item.id)}
+                          className="text-red-600 hover:text-red-700 mt-1 sm:mt-2 flex items-center gap-1 text-xs sm:text-sm transition-colors"
+                        >
+                          <Trash2 size={14} className="sm:w-4 sm:h-4" />
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
